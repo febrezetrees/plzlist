@@ -21,7 +21,7 @@ const Item = ({ itemId }) => {
             day: 'numeric', month: 'long'
         })
 
-        const updated = new Date(item.updateAt).toLocaleString('en-AU', { day: 'numeric', month: 'long' })
+        const updated = new Date(item.updatedAt).toLocaleString('en-AU', { day: 'numeric', month: 'long' })
 
         const handleEdit = () => navigate(`/dash/items/${itemId}`)
 

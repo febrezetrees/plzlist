@@ -6,11 +6,11 @@ import authReducer from '../features/auth/authSlice'
 
 export const store = configureStore({
     reducer: {
-        [apiSlice.reducerpath]: apiSlice.reducer,
+        [apiSlice.reducerPath]: apiSlice.reducer,
         auth: authReducer
     },
     middleware: getDefaultMiddleware => getDefaultMiddleware().concat(apiSlice.middleware),
-    devtools: true //to go false on production
+    devTools: true //to go false on production
 })
 
 setupListeners(store.dispatch)

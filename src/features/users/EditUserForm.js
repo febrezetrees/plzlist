@@ -64,22 +64,12 @@ const EditUserForm = ({ user }) => {
         setRoles(values)
     }
     const onActiveChanged = () => setActive(prev => !prev)
-    const onDeleteUserClicked = async () => {
-        await deleteUser({ id: user.id })
-    }
     const onSaveUserClicked = async (e) => {
         if (password) {
-            await updateUser({ id: user.id, password, roles, active })
+            await updateUser({ id: user.id, username, password, roles, active })
         } else {
             await updateUser({ id: user.id, username, roles, active })
         }
-    }
-    // onSaveUserClicked min reqs (for DOM visibility)
-    let canSave
-    if (password) {
-        canSave = [roles.length, validUsername, validPassword].every(Boolean) && !isLoading
-    } else {
-        canSave = [roles.length, validUsername].every(Boolean) && !isLoading
     }
     //set available roles (options for <select> below)
     const options = Object.values(ROLES).map(role => {
@@ -87,6 +77,19 @@ const EditUserForm = ({ user }) => {
             <option key={role} value={role}>{role}</option>
         )
     })
+
+    const onDeleteUserClicked = async () => {
+        await deleteUser({ id: user.id })
+    }
+
+    // onSaveUserClicked min reqs (for DOM visibility)
+    let canSave
+    if (password) {
+        canSave = [roles.length, validUsername, validPassword].every(Boolean) && !isLoading
+    } else {
+        canSave = [roles.length, validUsername].every(Boolean) && !isLoading
+    }
+
 
     // Dynamic CSS (error) logic
     const errClass = (isError || isDelError) ? "errmsg" : "offscreen"
@@ -112,7 +115,7 @@ const EditUserForm = ({ user }) => {
                         </button>
                     </div>
                 </div>
-                <label className="form__label" labelFor="username">
+                <label className="form__label" labelfor="username">
                     Username: <span className="nowrap">[3-20 letters]</span>
                 </label>
                 <input
@@ -124,7 +127,7 @@ const EditUserForm = ({ user }) => {
                     value={username}
                     onChange={onUsernameChanged}
                 />
-                <label className="form__label" labelFor="password">
+                <label className="form__label" labelfor="password">
                     Password:<span className="nowrap">[empty= no change]</span><span className="nowrap">[4-12 chars incl. !@#$%]</span>
                 </label>
                 <input

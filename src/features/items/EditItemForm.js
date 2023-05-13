@@ -44,20 +44,22 @@ const EditItemForm = ({ item, users }) => {
     const onTextChanged = e => setText(e.target.value)
     const onCompletedChanged = e => setCompleted(prev => !prev)
     const onUserIdChanged = e => setUserId(e.target.value)
-    const onDeleteItemClicked = async () => {
-        await deleteItem({ id: item.id })
-    }
+
+    // onSaveItemClicked min reqs (for DOM visibility)
+    const canSave = [title, text, userId].every(Boolean) && !isLoading
+
     const onSaveItemClicked = async (e) => {
         if (canSave) {
             await updateItem({ id: item.id, user: userId, title, text, completed })
         }
     }
 
-    // onSaveItemClicked min reqs (for DOM visibility)
-    const canSave = [title, text, userId].every(Boolean) && !isLoading
+    const onDeleteItemClicked = async () => {
+        await deleteItem({ id: item.id })
+    }
 
     //setting date/time for create/edit
-    const created = new Date(item.createdAt).toLocaleString('en-AU', { day: 'numeric', month: 'long', year: 'numeric', minute: 'numeric', second: 'numeric' })
+    const created = new Date(item.createdAt).toLocaleString('en-AU', { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' })
 
     const updated = new Date(item.updatedAt).toLocaleString('en-AU', { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' })
 
@@ -98,7 +100,7 @@ const EditItemForm = ({ item, users }) => {
 
             <form className="form" onSubmit={e => e.preventDefault()}>
                 <div className="form__title-row">
-                    <h2>Edit Item #{item.clicked}</h2>
+                    <h2>Edit Item #{item.ticket}</h2>
                     <div className="form__action-buttons">
                         <button
                             className="icon-button"
@@ -116,30 +118,30 @@ const EditItemForm = ({ item, users }) => {
                 </label>
                 <input
                     className={`form__input ${validTitleClass}`}
-                    id="note-title"
+                    id="item-title"
                     name="title"
                     type="text"
                     autoComplete="off"
                     value={title}
                     onChange={onTitleChanged}
                 />
-                <label className="form__label" htmlFor="note-text">
+                <label className="form__label" htmlFor="item-text">
                     Text:
                 </label>
                 <textarea
                     className={`form__input form__input--text ${validTextClass}`}
-                    id="note-text"
+                    id="item-text"
                     name="text"
                     value={text}
                     onChange={onTextChanged}
                 />
                 <div className="form__row">
                     <div className="form__divider">
-                        <label className="form__label form__checkbox-container" htmlFor="note-completed">
+                        <label className="form__label form__checkbox-container" htmlFor="item-completed">
                             WORK COMPLETE:
                             <input
                                 className="form__checkbox"
-                                id="note-completed"
+                                id="item-completed"
                                 name="completed"
                                 type="checkbox"
                                 checked={completed}

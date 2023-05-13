@@ -40,6 +40,7 @@ const Login = () => {
             setUsername('')
             setPassword('')
             navigate('/dash')
+
         } catch (err) {
             if (!err.status) {
                 setErrMsg('No Server Response')
@@ -56,7 +57,7 @@ const Login = () => {
     //Controlled inputs for JSX elements
     const handleUserInput = (e) => setUsername(e.target.value)
     const handlePwdInput = (e) => setPassword(e.target.value)
-    const handleToggle = (e) => setPersist(prev => !prev)
+    const handleToggle = () => setPersist(prev => !prev)
 
     const errClass = errMsg ? "errmsg" : "offscreen"
 
@@ -89,7 +90,6 @@ const Login = () => {
                         id="password"
                         onChange={handlePwdInput}
                         value={password}
-                        autoComplete="off"
                         required
                     />
                     <button className="form__submit-button">Sign In</button>

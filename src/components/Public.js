@@ -6,7 +6,7 @@ const Public = () => {
             <header>
                 <h1>Welcome to plzlist landing page</h1>
             </header>
-            <main>
+            <main className="public__main">
                 <p>This is the Public.js component</p>
             </main>
             <footer>

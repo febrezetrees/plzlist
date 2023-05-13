@@ -1,7 +1,7 @@
 import { useGetUsersQuery } from './usersApiSlice'
 import User from './User'
 import useTitle from '../../hooks/useTitle'
-import { PulseLoader } from 'react-spinners'
+import { PulseLoader } from 'react-spinners/PulseLoader'
 
 const UsersList = () => {
     useTitle('UsersList')

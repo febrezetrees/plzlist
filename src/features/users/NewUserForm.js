@@ -57,14 +57,16 @@ const NewUserForm = () => {
         )
         setRoles(values)
     }
+
+    // onSaveUserClicked min reqs (for DOM visibility)
+    const canSave = [roles.length, validUsername, validPassword].every(Boolean) && !isLoading
+
     const onSaveUserClicked = async (e) => {
         e.preventDefault()
         if (canSave) {
             await addNewUser({ username, password, roles })
         }
     }
-    // onSaveUserClicked min reqs (for DOM visibility)
-    const canSave = [roles.length, validUsername, validPassword] && !isLoading
 
     //set available roles (options for <select> below)
     const options = Object.values(ROLES).map(role => {

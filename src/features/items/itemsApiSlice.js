@@ -5,7 +5,7 @@ import {
 import { apiSlice } from '../../app/api/apiSlice'
 
 const itemsAdapter = createEntityAdapter({
-    //sort [ids] so on entity retrieval the 'completed' entities are at the botton of itemsList
+    //sort [ids] so on entity retrieval the 'completed' entities are at the botton of ItemsList
     sortComparer: (a, b) => (a.completed === b.completed) ? 0
         : a.completed ? 1
             : -1
@@ -102,6 +102,6 @@ const selectItemsData = createSelector(
 //Rename and export default RTK selectors (for reading the normalised state)
 export const {
     selectAll: selectAllItems,
-    selectById: selectItemsById,
+    selectById: selectItemById,
     selectIds: selectItemIds
 } = itemsAdapter.getSelectors(state => selectItemsData(state) ?? initialState)

@@ -23,9 +23,11 @@ export const authApiSlice = apiSlice.injectEndpoints({
                     const { data } = await queryFulfilled
                     console.log(data)
                     dispatch(logOut())
+                    console.log('authAPiSlice1')
                     setTimeout(() => { //setTimeout wrap to circumvent RTK bug (giving RTK 1s to realise components have unmounted, before it runs resetApiState())
                         dispatch(apiSlice.util.resetApiState())
                     }, 1000)
+                    console.log('authAPiSlice2')
                 } catch (err) {
                     console.log(err)
                 }
@@ -34,7 +36,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
         //Mutation endpoint 3 - new access token
         refresh: builder.mutation({
             query: () => ({
-                url: 'auth/refresh',
+                url: '/auth/refresh',
                 method: 'GET' //req will include http-only cookie
             }),
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {

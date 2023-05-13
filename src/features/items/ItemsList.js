@@ -36,19 +36,19 @@ const ItemsList = () => {
         } else {
             filteredIds = ids.filter(itemId => entities[itemId].username === username) //prepare ids array of 'itemsList' cached entities that match the accessToken in state
         }
-        //Render identified items
+        //Render identified items for Item component
         const tableContent = ids?.length && filteredIds.map(itemId => <Item key={itemId} itemId={itemId} />)
 
         content = (
-            <table className="table table--notes">
+            <table className="table table--items">
                 <thead className="table__thead">
                     <tr>
-                        <th scope="col" className="table__th note_status">Username</th>
-                        <th scope="col" className="table__th note_created">Username</th>
-                        <th scope="col" className="table__th note_updated">Username</th>
-                        <th scope="col" className="table__th note_title">Username</th>
-                        <th scope="col" className="table__th note_username">Username</th>
-                        <th scope="col" className="table__th note_edit">Username</th>
+                        <th scope="col" className="table__th item_status">Status</th>
+                        <th scope="col" className="table__th item_created">Created</th>
+                        <th scope="col" className="table__th item_updated">Updated</th>
+                        <th scope="col" className="table__th item_title">Title</th>
+                        <th scope="col" className="table__th item_username">Username</th>
+                        <th scope="col" className="table__th item_edit">Edit</th>
                     </tr>
                 </thead>
                 <tbody>

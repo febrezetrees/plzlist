@@ -35,15 +35,16 @@ const NewItemForm = ({ users }) => {
     const onTitleChanged = e => setTitle(e.target.value)
     const onTextChanged = e => setText(e.target.value)
     const onUserIdChanged = e => setUserId(e.target.value)
+
+    // onSaveItemClicked min reqs (for DOM visibility)
+    const canSave = [title, text, userId].every(Boolean) && !isLoading
+
     const onSaveItemClicked = async (e) => {
         e.preventDefault()
         if (canSave) {
             await addNewItem({ user: userId, title, text })
         }
     }
-
-    // onSaveItemClicked min reqs (for DOM visibility)
-    const canSave = [title, text, userId].every(Boolean) && !isLoading
 
     //set available users (options for <select> below)
     const options = users.map(user => {

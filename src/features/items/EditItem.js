@@ -19,12 +19,13 @@ const EditItem = () => {
             item: data?.entities[id]
         })
     })
-    //Identify all users (for EditItemForm props)
+    //Identify users for that item
     const { users } = useGetUsersQuery("usersList", {
         selectFromResult: ({ data }) => ({
-            user: data?.ids.map(id => data?.entities[id])
+            users: data?.ids.map(id => data?.entities[id])
         })
     })
+    console.log(users)
 
     //Loading bar
     if (!item || !users?.length) return <PulseLoader color={"#FFF"} />

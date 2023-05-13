@@ -105,7 +105,7 @@ const DashHeader = () => {
     const errClass = isError ? "errmsg" : "offscreen"
 
     //populate button content
-    let buttonContent = null
+    let buttonContent
     if (isLoading) {
         buttonContent = <PulseLoader color={"#FFF"} />
     } else {
