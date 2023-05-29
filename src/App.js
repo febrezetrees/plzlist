@@ -3,6 +3,7 @@ import useTitle from './hooks/useTitle'
 import { Routes, Route } from 'react-router-dom'
 import Layout from './components/Layout'
 import Public from './components/Public'
+import Register from './features/register/Register'
 import Login from './features/auth/Login'
 import PersistLogin from './features/auth/PersistLogin'
 import { ROLES } from './config/roles'
@@ -27,6 +28,7 @@ function App() {
       <Route path="/" element={<Layout />}>
         <Route index element={<Public />} />
         <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
 
         {/* Protected routes */}
         <Route element={<PersistLogin />}>

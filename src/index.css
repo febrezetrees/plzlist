@@ -103,15 +103,41 @@ a:focus-visible {
   color: var(--LINK-HOVER);
 }
 
+.instructions {
+  font-size: 0.75rem;
+  border-radius: 0.5rem;
+  background: #000;
+  color: #fff;
+  padding: 0.25rem;
+  position: relative;
+  bottom: -10px;
+}
+
+.instructions>svg {
+  margin-right: 0.25rem;
+}
+
 .offscreen {
-  border: 0;
-  clip: rect(0 0 0 0);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
   position: absolute;
+  left: -9999px;
+  top: auto;
   width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.hide {
+  display: none;
+}
+
+.valid {
+  color: limegreen;
+  margin-left: 0.25rem;
+}
+
+.invalid {
+  color: red;
+  margin-left: 0.25rem;
 }
 
 /* || PAGES */
@@ -130,6 +156,13 @@ a:focus-visible {
 
 .public__main,
 .login {
+  flex-grow: 1;
+  border-top: 2px solid var(--BORDER-COLOR);
+  border-bottom: 2px solid var(--BORDER-COLOR);
+  padding: 1em 0;
+}
+
+.register {
   flex-grow: 1;
   border-top: 2px solid var(--BORDER-COLOR);
   border-bottom: 2px solid var(--BORDER-COLOR);

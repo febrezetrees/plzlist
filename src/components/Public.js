@@ -11,6 +11,8 @@ const Public = () => {
             </main>
             <footer>
                 <Link to="/login">Login here</Link>
+                <span>  </span>
+                <Link to="/Register">Register here</Link>
             </footer>
         </section>
     )
