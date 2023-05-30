@@ -3,9 +3,12 @@ import { useUpdateItemMutation, useDeleteItemMutation } from './itemsApiSlice'
 import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSave, faTrashCan } from '@fortawesome/free-solid-svg-icons'
+import useTitle from '../../hooks/useTitle'
 import useAuth from '../../hooks/useAuth'
 
 const EditItemForm = ({ item, users }) => {
+    useTitle('EditItemForm')
+
     const { isAdmin } = useAuth()
 
     const [updateItem, {

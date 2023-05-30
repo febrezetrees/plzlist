@@ -4,9 +4,13 @@ import { useAddNewItemMutation } from './itemsApiSlice'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSave } from '@fortawesome/free-solid-svg-icons'
 import useTitle from '../../hooks/useTitle'
+import useAuth from '../../hooks/useAuth'
+
 
 const NewItemForm = ({ users }) => {
     useTitle('NewItemForm')
+
+    const { isAdmin } = useAuth()
 
     const [addNewItem, {
         isLoading,
@@ -47,18 +51,23 @@ const NewItemForm = ({ users }) => {
     }
 
     //set available users (options for <select> below)
-    const options = users.map(user => {
-        return (
-            <option key={user.id} value={user.id}>
-                {user.username}
-            </option>
-        )
-    })
+    let options
+    if (isAdmin) {
+        options = users.map(user => {
+            return (
+                <option key={user.id} value={user.id}>
+                    {user.username}
+                </option>
+            )
+        })
+    }
 
     // Dynamic CSS (error) logic
     const errClass = isError ? "errmsg" : "offscreen"
     const validTitleClass = !title ? 'form__input--incomplete' : ''
     const validTextClass = !text ? 'form__input--incomplete' : ''
+    const optionsLabelGate = !isAdmin ? 'offscreen' : 'form__label form__checkbox-container'
+    const optionsListGate = !isAdmin ? 'offscreen' : 'form__select'
 
     const content = (
         <>
@@ -95,13 +104,13 @@ const NewItemForm = ({ users }) => {
                     value={text}
                     onChange={onTextChanged}
                 />
-                <label className='form__label form__checkbox-container' htmlFor="username">
+                <label className={optionsLabelGate} htmlFor="username">
                     ASSIGNED TO:
                 </label>
                 <select
                     id="username"
                     name="username"
-                    className="form__select"
+                    className={optionsListGate}
                     value={userId}
                     onChange={onUserIdChanged}
                 >
