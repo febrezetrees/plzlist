@@ -81,18 +81,16 @@ const EditItemForm = ({ item, users }) => {
     const errContent = (error?.data?.message || delerror?.data?.message) ?? ''
 
     // onDeleteItemClicked min reqs (for DOM visibility)
-    let deleteButton = null
-    if (isAdmin) {
-        deleteButton = (
-            <button
-                className="icon-button"
-                title="Delete"
-                onClick={onDeleteItemClicked}
-            >
-                <FontAwesomeIcon icon={faTrashCan} />
-            </button>
-        )
-    }
+    const deleteButton = (
+        <button
+            className="icon-button"
+            title="Delete"
+            onClick={onDeleteItemClicked}
+        >
+            <FontAwesomeIcon icon={faTrashCan} />
+        </button>
+    )
+
 
     const content = (
         <>
