@@ -3,10 +3,10 @@ import { useUpdateItemMutation, useDeleteItemMutation } from './itemsApiSlice'
 import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSave, faTrashCan } from '@fortawesome/free-solid-svg-icons'
-/*import useAuth from '../../hooks/useAuth'*/
+import useAuth from '../../hooks/useAuth'
 
 const EditItemForm = ({ item, users }) => {
-    /*const { isAdmin } = useAuth()*/
+    const { isAdmin } = useAuth()
 
     const [updateItem, {
         isLoading,
@@ -64,18 +64,23 @@ const EditItemForm = ({ item, users }) => {
     const updated = new Date(item.updatedAt).toLocaleString('en-AU', { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' })
 
     //set available users (options for <select> below)
-    const options = users.map(user => {
-        return (
-            <option key={user.id} value={user.id}>
-                {user.username}
-            </option>
-        )
-    })
+    let options
+    if (isAdmin) {
+        options = users.map(user => {
+            return (
+                <option key={user.id} value={user.id}>
+                    {user.username}
+                </option>
+            )
+        })
+    }
 
     // Dynamic CSS (error) logic
     const errClass = (isError || isDelError) ? 'errmsg' : 'offscreen'
     const validTitleClass = !title ? 'form__input--incomplete' : ''
     const validTextClass = !text ? 'form__input--incomplete' : ''
+    const optionsLabelGate = !isAdmin ? 'offscreen' : 'form__label form__checkbox-container'
+    const optionsListGate = !isAdmin ? 'offscreen' : 'form__select'
 
     // error message min reqs (for DOM visibility)
     const errContent = (error?.data?.message || delerror?.data?.message) ?? ''
@@ -146,13 +151,13 @@ const EditItemForm = ({ item, users }) => {
                                 onChange={onCompletedChanged}
                             />
                         </label>
-                        <label className="form__label form__checkbox-container" htmlFor="item-username">
+                        <label className={optionsLabelGate} htmlFor="item-username">
                             ASSIGNED TO:
                         </label>
                         <select
                             id="item-username"
                             name="username"
-                            className="form__select"
+                            className={optionsListGate}
                             value={userId}
                             onChange={onUserIdChanged}
                         >
