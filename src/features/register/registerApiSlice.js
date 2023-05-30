@@ -9,7 +9,10 @@ export const regApiSlice = apiSlice.injectEndpoints({
                 url: '/register',
                 method: 'POST',
                 body: { ...userData }
-            })
+            }),
+            invalidatesTags: [
+                { type: 'User', id: 'LIST' }
+            ]
         }),
     })
 })

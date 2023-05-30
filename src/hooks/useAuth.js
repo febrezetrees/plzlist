@@ -1,3 +1,4 @@
+//decodes accessToken (in store) to ascertain role
 import { useSelector } from 'react-redux'
 import { selectCurrentToken } from '../features/auth/authSlice'
 import jwtDecode from 'jwt-decode'

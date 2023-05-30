@@ -12,6 +12,7 @@ const EditItem = () => {
     const { id } = useParams()
 
     const { username, isAdmin } = useAuth()
+    console.log(username)
 
     // Identify item for editing
     const { item } = useGetItemsQuery("itemsList", {
@@ -19,16 +20,33 @@ const EditItem = () => {
             item: data?.entities[id]
         })
     })
+    console.log(`line 22: ${JSON.stringify(item)}`)
+
     //Identify users for that item
+    /*SHOWS THE DATA FROM CACHE KEY 'USERSLIST' and 'ITEMSLIST'): 
+    const { data } = useGetUsersQuery("usersList")
+    console.log(data)*/
+    /*SHOWS THE DATA FROM CACHE KEY 'ITEMSLIST'):
+    const { data } = useGetItemsQuery("itemsList")
+    console.log(data)*/
+
     const { users } = useGetUsersQuery("usersList", {
         selectFromResult: ({ data }) => ({
-            users: data?.ids.map(id => data?.entities[id])
+            users: data?.ids.map(dataId => data?.entities[dataId])
         })
+        //returns a users ARRAY
     })
-    console.log(users)
+
+    let filteredUsers
+    if (isAdmin) {
+        filteredUsers = users // prepare ids array of all cached entities ('usersList')
+    } else {
+        filteredUsers = users.filter(id => id.username === username) // prepare ids array of cached entities ('notesList') that match the accessToken in state. NOTE ids array gets filtered against the entities that have the correct 'username'. Returned ids array then includes NOTE ids of NOTE entities with the 'username' 
+        console.log(filteredUsers)
+    }
 
     //Loading bar
-    if (!item || !users?.length) return <PulseLoader color={"#FFF"} />
+    if (!item || !filteredUsers?.length) return <PulseLoader color={"#FFF"} />
 
     // Check req against auth state (from accessToken)
     if (!isAdmin) {
@@ -37,7 +55,7 @@ const EditItem = () => {
         }
     }
 
-    const content = <EditItemForm item={item} users={users} />
+    const content = <EditItemForm item={item} users={filteredUsers} />
 
 
     return content
