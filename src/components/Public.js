@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import PubItemsList from '../features/pubitems/PubItemsList'
 
 const Public = () => {
     const content = (
@@ -8,6 +9,7 @@ const Public = () => {
             </header>
             <main className="public__main">
                 <p>This is the Public.js component</p>
+                <PubItemsList />
             </main>
             <footer>
                 <Link to="/login">Login here</Link>
