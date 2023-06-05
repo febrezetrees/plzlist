@@ -243,9 +243,9 @@ a:focus-visible {
   margin-right: 0.5rem;
 }
 
-.pubItem input[type="checkbox"]:focus+label {
+/*.pubItem input[type="checkbox"]:focus+label {
   text-decoration: underline;
-}
+}*/
 
 .pubItem>label {
   font-size: 1rem;

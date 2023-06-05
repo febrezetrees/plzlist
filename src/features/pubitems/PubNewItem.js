@@ -1,6 +1,6 @@
 import { useRef } from "react";
 
-const PubNewItem = ({ pubItemText, setPubItemText, handleSubmit }) => {
+const PubNewItem = ({ pubNewItemText, setNewPubItemText, handleSubmit }) => {
 
     const inputRef = useRef();
 
@@ -14,8 +14,8 @@ const PubNewItem = ({ pubItemText, setPubItemText, handleSubmit }) => {
                 type='text'
                 placeholder='Add Item'
                 required
-                value={pubItemText} //links to current state, single source of truth
-                onChange={(e) => setPubItemText(e.target.value)} //Event listener onChange - updates state, single source of truth
+                value={pubNewItemText} //links to current state, single source of truth
+                onChange={(e) => setNewPubItemText(e.target.value)} //Event listener onChange - updates state, single source of truth
             />
             <button
                 type='submit'
