@@ -4,11 +4,9 @@ import { useDispatch } from 'react-redux'
 import { setCredentials } from './authSlice'
 import { useLoginMutation } from './authApiSlice'
 import usePersist from '../../hooks/usePersist'
-import useTitle from '../../hooks/useTitle'
 import PulseLoader from 'react-spinners/PulseLoader'
 
-const Login = () => {
-    useTitle('Plzlist: Login')
+const Login = ({ bodyType }) => {
 
     const userRef = useRef()
     const errRef = useRef()
@@ -23,7 +21,8 @@ const Login = () => {
     const [login, { isLoading }] = useLoginMutation()
 
     useEffect(() => {
-        userRef.current.focus()
+        if (userRef && userRef.current)
+            userRef.current.focus()
     }, [])
 
     useEffect(() => {
@@ -51,7 +50,9 @@ const Login = () => {
             } else {
                 setErrMsg(err.data?.message)
             }
-            errRef.current.focus()
+            if (errRef && errRef.current) {
+                errRef.current.focus()
+            }
         }
     }
     //Controlled inputs for JSX elements
@@ -59,58 +60,56 @@ const Login = () => {
     const handlePwdInput = (e) => setPassword(e.target.value)
     const handleToggle = () => setPersist(prev => !prev)
 
+    // CSS selector for error, user guide and pwd guide JSX elements
     const errClass = errMsg ? "errmsg" : "offscreen"
 
     if (isLoading) return <PulseLoader color={"#FFF"} />
 
-    const content = (
-        <section className="public">
-            <header>
-                <h1>Employee Login</h1>
-            </header>
-            <main className="login">
-                <p ref={errRef} className={errClass} aria-live="assertive">{errMsg}</p>
-
-                <form className="form" onSubmit={handleSubmit}>
-                    <label htmlFor="username">Username:</label>
-                    <input
-                        className="form__input"
-                        type="text"
-                        id="username"
-                        ref={userRef}
-                        onChange={handleUserInput}
-                        value={username}
-                        autoComplete="off"
-                        required
-                    />
-                    <label htmlFor="password">Password:</label>
-                    <input
-                        className="form__input"
-                        type="password"
-                        id="password"
-                        onChange={handlePwdInput}
-                        value={password}
-                        required
-                    />
-                    <button className="form__submit-button">Sign In</button>
-
-                    <label htmlFor="persist" className="form__persist">
+    const content =
+        (bodyType &&
+            <section className="login" >
+                <header>
+                    <p ref={errRef} className={errClass}>{errMsg}</p>
+                </header>
+                <main>
+                    <form className="form" onSubmit={handleSubmit}>
+                        <label htmlFor="username">
+                            Username:
+                        </label>
                         <input
-                            type="checkbox"
-                            className="form__checkbox"
-                            id="persist"
-                            onChange={handleToggle}
-                            checked={persist}
+                            className="form__input"
+                            type="text"
+                            id="username"
+                            ref={userRef}
+                            onChange={handleUserInput}
+                            value={username}
+                            autoComplete="off"
+                            required
                         />
-                        Trust this device
-                    </label>
-                </form>
-            </main>
-            <footer>
-                <Link to="/">Back to Home</Link>
-            </footer>
-        </section>
-    )
+                        <label htmlFor="password">Password:</label>
+                        <input
+                            className="form__input"
+                            type="password"
+                            id="password"
+                            onChange={handlePwdInput}
+                            value={password}
+                            required
+                        />
+                        <button className="form__submit-button">Sign In</button>
+
+                        <label htmlFor="persist" className="form__persist">
+                            <input
+                                type="checkbox"
+                                className="form__checkbox"
+                                id="persist"
+                                onChange={handleToggle}
+                                checked={persist}
+                            />
+                            Trust this device
+                        </label>
+                    </form>
+                </main>
+            </section>)
 
     return content
 }

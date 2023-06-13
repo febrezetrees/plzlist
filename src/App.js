@@ -18,7 +18,6 @@ import ItemsList from './features/items/ItemsList'
 import EditItem from './features/items/EditItem'
 import NewItem from './features/items/NewItem'
 
-
 function App() {
   useTitle('App')
 

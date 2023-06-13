@@ -8,15 +8,13 @@ import { setCredentials } from '../../features/auth/authSlice'
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 //import usePersist from '../../hooks/usePersist'
-import useTitle from '../../hooks/useTitle'
 import PulseLoader from 'react-spinners/PulseLoader'
 
 //Minimum username/password standards
 const USER_REGEX = /^[A-z0-9]{3,20}$/ //checks for a username that consists of 3 to 20 characters from the English alphabet (both lowercase and uppercase letters) and numbers (0-9)
 const PWD_REGEX = /^[A-z0-9!@#$%^&*]{4,12}$/ //checks for a password that consists of 4 to 12 characters. The characters can be from the English alphabet (both lowercase and uppercase letters), numbers (0-9), or the special characters !, @, #, $, %, ^, &, *, and (). No other characters or spaces are allowed in the password.
 
-const Register = () => {
-    useTitle('Register')
+const Register = ({ bodyType }) => {
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -59,7 +57,8 @@ const Register = () => {
 
     // focus on input element (for each re-render)
     useEffect(() => {
-        userRef.current.focus()
+        if (userRef && userRef.current)
+            userRef.current.focus()
     }, [])
 
     // validate username
@@ -126,7 +125,9 @@ const Register = () => {
                 } else {
                     setErrMsg(`Registration / auto - login Failed - error: ${err.data?.message}`)
                 }
-                errRef.current.focus()
+                if (errRef && errRef.current) {
+                    errRef.current.focus()
+                }
                 console.log(errMsg)
                 console.log(error)
                 console.log(regError)
@@ -147,6 +148,7 @@ const Register = () => {
             setUsername('')
             setPwd('')
             setMatchPwd('')
+            //zzzRP up to here - set up list ID, dispatch list to state/cache then API to DB (for username) - once all loaded, nav to /list url under cover of modal grey (list will be a clone of existing pub) and clear the modal. 
             navigate('/dash')
         } catch (err) {
             console.log(err)
@@ -157,19 +159,15 @@ const Register = () => {
     // register loading prompt
     if (isLoading || isRegLoading) return <PulseLoader color={"#FFF"} />
 
-    const content = (
-        <>
-            (<section>
+    const content =
+        (!bodyType &&
+            <section className="register">
                 <header>
                     <p ref={errRef} className={errClass}>{errMsg}</p>
-
-                    <h1>Register</h1>
                 </header>
                 <main>
-
-                    <form className="form__title-row" onSubmit={onRegisterUserClicked}>
-
-                        <label className="form__label" htmlFor="username">
+                    <form className="form" onSubmit={onRegisterUserClicked}>
+                        <label htmlFor="username">
                             Username:
                             <span className={validUserClass}>
                                 <FontAwesomeIcon icon={faCheck} />
@@ -179,6 +177,7 @@ const Register = () => {
                             </span>
                         </label>
                         <input
+                            className="form__input"
                             type="text"
                             id="username" //The id attribute is used to provide a unique identifier for an HTML element on a page
                             name="username" // to identify the data being sent to the server. The value of the name attribute is passed along with the corresponding input's value in the form submission
@@ -205,6 +204,7 @@ const Register = () => {
                             </span>
                         </label>
                         <input
+                            className="form__input"
                             type="password"
                             id="password"
                             required
@@ -231,6 +231,7 @@ const Register = () => {
                             </span>
                         </label>
                         <input
+                            className="form__input"
                             type="password"
                             id="confirm_pwd"
                             value={matchPwd}
@@ -246,22 +247,15 @@ const Register = () => {
                         <div className="form__action-buttons">
                             <button
                                 disabled={!canSave} //i.e. if cansave returns true, its inverse unlocks the button
-                                className="icon-button"
+                                className="form__register-button"
                                 title="Save"
                             >
-                                Save
+                                Register
                             </button>
                         </div>
-
                     </form>
                 </main>
-                <footer>
-                    <Link to="/">Back to Home</Link>
-                </footer>
-            </section>
-            )
-        </>
-    )
+            </section>)
 
     return content
 }
